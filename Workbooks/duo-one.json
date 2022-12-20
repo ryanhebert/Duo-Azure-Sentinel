@@ -1,1 +1,231 @@
-
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 1,
+            "content": {
+              "json": "## Access Graphs"
+            },
+            "name": "text - 0"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "2370146f-d67d-4311-bd7a-ca1b93836504",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "browser",
+                  "label": "Access Browser",
+                  "type": 2,
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "query": "CiscoDuo_CL | where access_device_browser_s != \"\" | summarize by access_device_browser_s",
+                  "typeSettings": {
+                    "additionalResourceOptions": [
+                      "value::all"
+                    ],
+                    "showDefault": false
+                  },
+                  "timeContext": {
+                    "durationMs": 2592000000
+                  },
+                  "defaultValue": "value::all",
+                  "queryType": 0,
+                  "resourceType": "microsoft.operationalinsights/workspaces"
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            "name": "p1"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "// Counts by table names\nunion withsource=[\"$TableName\"] *\n| summarize Count=count() by TableName=[\"$TableName\"]\n| render barchart",
+              "size": 1,
+              "title": "Sample",
+              "timeContext": {
+                "durationMs": 86400000
+              },
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "visualization": "scatterchart"
+            },
+            "customWidth": "50",
+            "name": "Sample",
+            "styleSettings": {
+              "margin": "20px",
+              "padding": "40px",
+              "maxWidth": "50%",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "// Counts by browser\nCiscoDuo_CL\n| where access_device_browser_s has_any ({browser})\n| summarize Count=count() by access_device_browser_s\n| render barchart",
+              "size": 0,
+              "title": "Browser Usage",
+              "timeContext": {
+                "durationMs": 86400000
+              },
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "sortBy": [
+                  {
+                    "itemKey": "access_device_browser_s",
+                    "sortOrder": 1
+                  }
+                ]
+              },
+              "sortBy": [
+                {
+                  "itemKey": "access_device_browser_s",
+                  "sortOrder": 1
+                }
+              ]
+            },
+            "customWidth": "50",
+            "name": "Browser Usage",
+            "styleSettings": {
+              "margin": "20px",
+              "padding": "40px",
+              "maxWidth": "50%",
+              "showBorder": true
+            }
+          }
+        ]
+      },
+      "name": "Access Graphs"
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 1,
+            "content": {
+              "json": "## Admin Graphs Testing"
+            },
+            "name": "text - 0"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "8f84a70b-d70c-4413-95fb-4fa911a1defc",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "admin_action",
+                  "label": "Admin Action",
+                  "type": 2,
+                  "isRequired": true,
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "query": "// Get Admin Actions\nCiscoDuo_CL | where action_s != \"\" | summarize by action_s",
+                  "typeSettings": {
+                    "additionalResourceOptions": [
+                      "value::all"
+                    ],
+                    "showDefault": false
+                  },
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "defaultValue": "value::all",
+                  "queryType": 0,
+                  "resourceType": "microsoft.operationalinsights/workspaces",
+                  "value": [
+                    "value::all"
+                  ]
+                },
+                {
+                  "id": "f6c75c7a-47b3-48ed-8b04-f43ade99fe3c",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "admin",
+                  "label": "Admin",
+                  "type": 2,
+                  "isRequired": true,
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "query": "// Get Admins\nCiscoDuo_CL | where action_s != \"\" | summarize by username_s",
+                  "typeSettings": {
+                    "additionalResourceOptions": [
+                      "value::all"
+                    ],
+                    "showDefault": false
+                  },
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "defaultValue": "value::all",
+                  "queryType": 0,
+                  "resourceType": "microsoft.operationalinsights/workspaces",
+                  "value": [
+                    "value::all"
+                  ]
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            "name": "parameters - 2"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "CiscoDuo_CL\n| where eventtype_s == \"administrator\"\nand action_s has_any ({admin_action})\nand username_s has_any ({admin})\n| project TimeStamp = isotimestamp_t, Admin = username_s, Action = action_s, Change = description_s\n\n",
+              "size": 0,
+              "timeContext": {
+                "durationMs": 86400000
+              },
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "gridSettings": {
+                "sortBy": [
+                  {
+                    "itemKey": "Admin",
+                    "sortOrder": 2
+                  }
+                ]
+              },
+              "sortBy": [
+                {
+                  "itemKey": "Admin",
+                  "sortOrder": 2
+                }
+              ]
+            },
+            "name": "query - 1"
+          }
+        ]
+      },
+      "name": "Admin Graphs"
+    }
+  ],
+  "fallbackResourceIds": [
+    "/subscriptions/9b25a279-7e73-4eaa-bb6e-4d3f36912164/resourcegroups/azure_testing/providers/microsoft.operationalinsights/workspaces/log-analytics-workspace-one"
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
